@@ -7,6 +7,7 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, v
 class Settings(BaseSettings):
     FIRST_SUPERUSER: str = "amir.jani500@gmail.com"
     FIRST_SUPERUSER_PASSWORD: str = "123123"
+    FIRST_SUPERUSER_FULL_NAME: str = "Amirhossein Jani"
 
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = secrets.token_urlsafe(32)
