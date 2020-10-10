@@ -8,7 +8,6 @@ Create Date: 2020-10-04 01:38:27.140356
 from alembic import op
 import sqlalchemy as sa
 
-
 # revision identifiers, used by Alembic.
 revision = '01796e80fda3'
 down_revision = None
@@ -37,7 +36,7 @@ def upgrade():
         sa.Column("title", sa.String(), nullable=True),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("owner_id", sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(["owner_id"], ["user.id"],),
+        sa.ForeignKeyConstraint(["owner_id"], ["user.id"], ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_item_description"), "item", ["description"], unique=False)
