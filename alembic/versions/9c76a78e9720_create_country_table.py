@@ -40,8 +40,8 @@ def upgrade():
 
 
 def downgrade():
-    # op.drop_index("index_country_id", table_name="country")
-    # op.drop_index("index_country_calling_code", table_name="country")
-    # op.drop_index("index_country_code", table_name="country")
+    op.drop_index("index_country_id", table_name="country")
+    op.drop_index("index_country_calling_code", table_name="country")
+    op.drop_index("index_country_code", table_name="country")
     op.drop_table("country")
 
