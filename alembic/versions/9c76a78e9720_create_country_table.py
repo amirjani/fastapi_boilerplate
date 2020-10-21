@@ -7,10 +7,11 @@ Create Date: 2020-10-10 22:14:03.452465
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy import text
 
 # revision identifiers, used by Alembic.
-from app.models.country import RegionEnum
-from datetime import datetime
+# from app.models.country import RegionEnum
+# from datetime import datetime
 
 revision = '9c76a78e9720'
 down_revision = '01796e80fda3'
@@ -28,9 +29,8 @@ def upgrade():
         sa.Column("region", sa.VARCHAR(20), nullable=True),
         sa.Column("translation", sa.JSON(), nullable=True),
         sa.Column("flag", sa.String(), nullable=False),
-        sa.Column("created_at", sa.TIMESTAMP(), nullable=False, default=datetime.now().timestamp()),
-        sa.Column("updated_at", sa.TIMESTAMP(), nullable=True),
-        sa.Column("deleted_at", sa.TIMESTAMP(), nullable=True),
+        sa.Column("created_at", sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column("deleted_at", sa.TIMESTAMP(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint("id")
     )
 

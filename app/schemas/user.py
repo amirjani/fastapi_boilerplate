@@ -2,8 +2,10 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
+from app.schemas.core import CoreModel
 
-class UserBase(BaseModel):
+
+class UserBase(CoreModel):
     email: Optional[EmailStr] = None
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = False

@@ -8,6 +8,8 @@ Create Date: 2020-10-20 18:17:03.037708
 from datetime import datetime
 from time import time
 
+from sqlalchemy import text
+
 from alembic import op
 import sqlalchemy as sa
 
@@ -26,8 +28,8 @@ def upgrade():
         sa.Column("code", sa.VARCHAR(3), nullable=False, unique=True),
         sa.Column("name", sa.VARCHAR(64), nullable=False),
         sa.Column("symbol", sa.VARCHAR(16), nullable=False, unique=True),
-        sa.Column("created_at", sa.TIMESTAMP, nullable=False, default=datetime.now().timestamp()),
-        sa.Column("deleted_at", sa.TIMESTAMP(), nullable=True),
+        sa.Column("created_at", sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column("deleted_at", sa.TIMESTAMP(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint("id")
     )
 
