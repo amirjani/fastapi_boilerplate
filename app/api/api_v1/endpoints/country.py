@@ -6,11 +6,20 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.api import deps
+from app.middleware.acl import access_control_layer
 
 router = APIRouter()
 
 
-@router.get("country")
+@router.get("roles")
+def role(
+    db: Session = Depends(deps.get_db),
+):
+    crud.user
+    pass
+
+
+@router.get("country", dependencies=[Depends(access_control_layer)])
 def read_all(
         db: Session = Depends(deps.get_db),
         skip: int = 0,
@@ -19,11 +28,12 @@ def read_all(
     return crud.country.get_multi(db, skip=skip, limit=limit)
 
 
-@router.post("country")
+@router.post("country", dependencies=[Depends(access_control_layer)])
 def create(
         *,
         db: Session = Depends(deps.get_db),
-        item_in: schemas.CountryCreate
+        item_in: schemas.CountryCreate,
+
 ) -> Any:
     # item_in['created_at'] = datetime.now()
 

@@ -13,8 +13,8 @@ def upgrade():
     op.create_table(
         "user_role",
 
-        sa.Column("user_id", sa.BigInteger(), nullable=False),
-        sa.Column("role_id", sa.BigInteger(), nullable=False),
+        sa.Column("user_id", sa.BigInteger(), nullable=False, primary_key=True),
+        sa.Column("role_id", sa.BigInteger(), nullable=False, primary_key=True),
 
         sa.ForeignKeyConstraint(["user_id"], ["user.id"], ),
         sa.ForeignKeyConstraint(["role_id"], ["role.id"], ),

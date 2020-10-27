@@ -52,5 +52,8 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     def is_superuser(self, user: User) -> bool:
         return user.is_superuser
 
+    def user_roles(self, db: Session):
+        return db.query(User).filter(User.roles)
+
 
 user = CRUDUser(User)
