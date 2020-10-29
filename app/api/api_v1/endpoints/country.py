@@ -7,19 +7,32 @@ from sqlalchemy.orm import Session
 from app import crud, schemas
 from app.api import deps
 from app.middleware.acl import access_control_layer
+from app.models import Role, User, UserRole, Country
 
 router = APIRouter()
 
 
 @router.get("roles")
 def role(
-    db: Session = Depends(deps.get_db),
+        db: Session = Depends(deps.get_db),
 ):
-    crud.user
-    pass
+    users = db.query(User).all()
+
+    for user in users:
+        user.role
+
+    return users
+
+    # return db.query(User).all()
+    # for user in users:
+    #     return user.roles
+    # .join(R)
 
 
-@router.get("country", dependencies=[Depends(access_control_layer)])
+# pass
+
+
+@router.get("country")
 def read_all(
         db: Session = Depends(deps.get_db),
         skip: int = 0,

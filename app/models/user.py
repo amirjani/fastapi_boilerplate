@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from app.db.base_class import Base
 from app.models.user_role import UserRole
@@ -17,4 +17,4 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
 
-    items = relationship("Role", secondary=UserRole, back_populates="user")
+    role = relationship("Role", secondary=UserRole.__tablename__, back_populates="user")
