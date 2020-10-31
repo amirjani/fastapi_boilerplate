@@ -5,6 +5,18 @@ from sqlalchemy.orm import relationship, backref
 
 from app.db.base_class import Base
 from app.models.user_role import UserRole
+import enum
+
+
+class UserType(enum.Enum):
+    natural_entity = 'Natural Entity'
+    legal_entity = 'Legal Entity'
+
+
+class UserGender(enum.Enum):
+    Male = 'Male'
+    Female = 'Female'
+    Other = 'Other'
 
 
 class User(Base):

@@ -1,10 +1,3 @@
-"""create language table
-
-Revision ID: f0850bce3024
-Revises: ec2cef051060
-Create Date: 2020-10-20 18:29:18.649874
-
-"""
 from datetime import datetime
 
 from sqlalchemy import text

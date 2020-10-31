@@ -32,7 +32,7 @@ def role(
 # pass
 
 
-@router.get("country")
+@router.get("/country")
 def read_all(
         db: Session = Depends(deps.get_db),
         skip: int = 0,
