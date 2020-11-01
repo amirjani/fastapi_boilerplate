@@ -39,6 +39,31 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
 
+    op.create_index(op.f("index_user_phone"), "user", ["phone"], unique=True)
+    op.create_index(op.f("index_user_email"), "user", ["email"], unique=True)
+    op.create_index(op.f("index_user_first_name"), "user", ["first_name"])
+    op.create_index(op.f("index_user_last_name"), "user", ["last_name"])
+    op.create_index(op.f("index_user_user_type"), "user", ["user_type"])
+    op.create_index(op.f("index_user_gender"), "user", ["gender"])
+    op.create_index(op.f("index_user_country_id"), "user", ["country_id"])
+    op.create_index(op.f("index_user_language_id"), "user", ["language_id"])
+    op.create_index(op.f("index_user_birth_date"), "user", ["birth_date"])
+    op.create_index(op.f("index_user_password"), "user", ["password"])
+    op.create_index(op.f("index_user_created_at"), "user", ["created_at"])
+    op.create_index(op.f("index_user_deleted_at"), "user", ["deleted_at"])
+
 
 def downgrade():
-    pass
+    op.drop_index("index_user_phone", table_name="user")
+    op.drop_index("index_user_email", table_name="user")
+    op.drop_index("index_user_first_name", table_name="user")
+    op.drop_index("index_user_last_name", table_name="user")
+    op.drop_index("index_user_user_type", table_name="user")
+    op.drop_index("index_user_gender", table_name="user")
+    op.drop_index("index_user_country_id", table_name="user")
+    op.drop_index("index_user_language_id", table_name="user")
+    op.drop_index("index_user_birth_date", table_name="user")
+    op.drop_index("index_user_password", table_name="user")
+    op.drop_index("index_user_created_at", table_name="user")
+    op.drop_index("index_user_deleted_at", table_name="user")
+    op.drop_table("user")
