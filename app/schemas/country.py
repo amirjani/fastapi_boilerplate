@@ -8,7 +8,7 @@ from app.schemas.core import CoreModel, DateTimeModelMixin, IDModelMixin
 class CountryBase(CoreModel):
     name: Optional[str] = None
     code: Optional[str] = None
-    calling_code: Optional[int] = None,
+    calling_code: Optional[str] = None,
     region: Optional[str] = None,
     translation: Optional[dict] = None,
     flag: Optional[str] = None
@@ -19,9 +19,9 @@ class CountryBase(CoreModel):
 class CountryCreate(CountryBase):
     name: str
     code: str
-    calling_code: int
+    calling_code: str
     region: str
-    translation: list
+    translation: Optional[dict]
     flag: str
     created_at = datetime.now()
 

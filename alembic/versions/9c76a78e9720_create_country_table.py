@@ -23,9 +23,9 @@ def upgrade():
     op.create_table(
         "country",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("name", sa.String(50), nullable=False),
+        sa.Column("name", sa.String(256), nullable=False),
         sa.Column("code", sa.VARCHAR(3), nullable=True),
-        sa.Column("calling_code", sa.Integer(), nullable=True),
+        sa.Column("calling_code", sa.VARCHAR(8), nullable=True),
         sa.Column("region", sa.VARCHAR(20), nullable=True),
         sa.Column("translation", sa.JSON(), nullable=True),
         sa.Column("flag", sa.String(), nullable=False),
@@ -35,8 +35,7 @@ def upgrade():
     )
 
     op.create_index(op.f("index_country_code"), "country", ["code"], unique=True)
-    op.create_index(op.f("index_country_calling_code"), "country", ["calling_code"], unique=True)
-    op.create_index(op.f("index_country_id"), "country", ["id"], unique=True)
+    op.create_index(op.f("index_country_calling_code"), "country", ["calling_code"])
 
 
 def downgrade():
