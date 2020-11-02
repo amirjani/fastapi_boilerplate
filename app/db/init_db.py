@@ -21,13 +21,34 @@ def init_db(db: Session) -> None:
     countries = requests.get(rest_country_url, headers={"content-type": "application/json"}).json()
 
     for country in countries:
-        country_in = schemas.CountryCreate(
-            name=country.get('name'),
-            code=country.get('alpha2Code') if country.get('alpha2Code') else country.get('alpha3Code'),
-            calling_code=country.get('callingCodes')[0],
-            region=country.get('region'),
-            translation=country.get('translations'),
-            flag=country.get('flag')
-        )
-        crud.country.create(db, obj_in=country_in)
+        code = country.get('alpha2Code') if country.get('alpha2Code') else country.get('alpha3Code');
+        country_exists = crud.country.get_by_code(db, code=code)
+        if not country_exists:
+            seed_country(db, country, code)
 
+        for language in country.get('languages'):
+            code = language.get('iso639_1') if language.get('iso639_1') else language.get('iso639_2')
+            language_exists = crud.language.get_by_code(db, code=code)
+            if not language_exists:
+                seed_language(db, language, code)
+
+
+def seed_country(db: Session, country: dict, code: str):
+    country_in = schemas.CountryCreate(
+        name=country.get('name'),
+        code=code,
+        calling_code=country.get('callingCodes')[0],
+        region=country.get('region'),
+        translation=country.get('translations'),
+        flag=country.get('flag')
+    )
+    crud.country.create(db, obj_in=country_in)
+
+
+def seed_language(db: Session, language: dict, code: str):
+    language_in = schemas.LanguageCreate(
+        code=code,
+        name=language.get('name'),
+        native_name=language.get('nativeName')
+    )
+    crud.language.create(db, obj_in=language_in)

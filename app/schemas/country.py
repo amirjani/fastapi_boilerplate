@@ -1,8 +1,7 @@
 from typing import Optional
 from datetime import datetime
-from pydantic import BaseModel, validator
 
-from app.schemas.core import CoreModel, DateTimeModelMixin, IDModelMixin
+from app.schemas.core import CoreModel
 
 
 class CountryBase(CoreModel):

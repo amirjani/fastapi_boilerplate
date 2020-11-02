@@ -1,16 +1,15 @@
-from typing import Optional
+from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
-from sqlalchemy.orm import Session
 from app.schemas.country import CountryCreate, CountryUpdate
 from app.models.country import Country
-from fastapi import APIRouter, Depends, HTTPException
-from app.api import deps
-from app import crud, models, schemas
 
 
 class CRUDCountry(CRUDBase[Country, CountryCreate, CountryUpdate]):
-    pass
+
+
+    def get_by_code(self, db: Session, *, code: str):
+        return db.query(Country).filter(Country.code == code).first()
 
 
 country = CRUDCountry(Country)
