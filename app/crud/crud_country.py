@@ -7,7 +7,6 @@ from app.models.country import Country
 
 class CRUDCountry(CRUDBase[Country, CountryCreate, CountryUpdate]):
 
-
     def get_by_code(self, db: Session, *, code: str):
         return db.query(Country).filter(Country.code == code).first()
 

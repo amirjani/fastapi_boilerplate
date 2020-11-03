@@ -25,9 +25,9 @@ def upgrade():
     op.create_table(
         "currency",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("code", sa.VARCHAR(3), nullable=False, unique=True),
+        sa.Column("code", sa.VARCHAR(16), nullable=True),
         sa.Column("name", sa.VARCHAR(64), nullable=False),
-        sa.Column("symbol", sa.VARCHAR(16), nullable=False, unique=True),
+        sa.Column("symbol", sa.VARCHAR(16), nullable=True),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.Column("deleted_at", sa.TIMESTAMP(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint("id")

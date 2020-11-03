@@ -7,9 +7,9 @@ from app.schemas.core import CoreModel
 class CountryBase(CoreModel):
     name: Optional[str] = None
     code: Optional[str] = None
-    calling_code: Optional[str] = None,
-    region: Optional[str] = None,
-    translation: Optional[dict] = None,
+    calling_code: Optional[str] = None
+    region: Optional[str] = None
+    translation: Optional[dict] = None
     flag: Optional[str] = None
     created_at: Optional[datetime]
     deleted_at: Optional[datetime]

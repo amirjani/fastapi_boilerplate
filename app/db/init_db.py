@@ -13,17 +13,20 @@ def init_db(db: Session) -> None:
     countries = requests.get(rest_country_url, headers={"content-type": "application/json"}).json()
 
     for country in countries:
+        # for seed: country
         country_code = get_country_code(country)
         country_exists = get_existed_country(db, country_code)
         if not country_exists:
             seed_country(db, country, country_code)
 
+        # for seed: language
         for language in country.get('languages'):
             code = get_language_code(language)
-            language_exists = crud.language.get_by_code(db, code=code)
+            language_exists = get_existed_language(db, code)
             if not language_exists:
                 seed_language(db, language, code)
 
+        # for seed: country_language
         for language in country.get('languages'):
             code = get_language_code(language)
             country_code = get_country_code(country)
@@ -32,9 +35,25 @@ def init_db(db: Session) -> None:
             if country_exists:
                 country_language_seed(db, code, country_exists)
 
+        for currency in country.get('currencies'):
+            currency_code = currency.get('code')
+            if currency_code:
+                currency_exists = crud.currency.get_by_code(db, code=currency_code)
+                if not currency_exists:
+                    currency_in = schemas.CurrencyCreate(
+                        name=currency.get('name'),
+                        code=currency_code,
+                        symbol=currency.get('symbol')
+                    )
+                    crud.currency.create(db, obj_in=currency_in)
+
 
 def get_existed_country(db: Session, code: int):
     return crud.country.get_by_code(db, code=code)
+
+
+def get_existed_language(db: Session, code: int):
+    return crud.language.get_by_code(db, code=code)
 
 
 def get_language_code(language: dict):
@@ -67,8 +86,9 @@ def seed_language(db: Session, language: dict, code: str):
 
 
 def country_language_seed(db: Session, code: str, country_exists: Country):
-    language_to_attach = crud.language.get_by_code(db, code=code).id
-    country_language_exists = crud.country_language.get_one(db, country_id=country_exists.id, language_id=language_to_attach)
+    language_to_attach = get_existed_language(db, code).id
+    country_language_exists = crud.country_language.get_one(db, country_id=country_exists.id,
+                                                            language_id=language_to_attach)
     if not country_language_exists:
         country_language_in = schemas.CountryLanguageCreate(
             country_id=country_exists.id,
