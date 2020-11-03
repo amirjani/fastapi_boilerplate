@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 from app.models.country_language import CountryLanguage
+from app.models.country_currency import CountryCurrency
 
 
 class Country(Base):
@@ -19,3 +20,4 @@ class Country(Base):
     deleted_at = Column(String, nullable=True)
 
     language = relationship("Language", secondary=CountryLanguage.__tablename__, back_populates="country")
+    currency = relationship("Currency", secondary=CountryCurrency.__tablename__, back_populates="country")

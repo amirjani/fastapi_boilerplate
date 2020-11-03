@@ -5,3 +5,4 @@ from .user_role import UserRole
 from .language import Language
 from .country_language import CountryLanguage
 from .currency import Currency
+from .country_currency import CountryCurrency

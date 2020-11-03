@@ -35,17 +35,33 @@ def init_db(db: Session) -> None:
             if country_exists:
                 country_language_seed(db, code, country_exists)
 
+        # for seed: currency_seed
         for currency in country.get('currencies'):
             currency_code = currency.get('code')
             if currency_code:
                 currency_exists = crud.currency.get_by_code(db, code=currency_code)
                 if not currency_exists:
-                    currency_in = schemas.CurrencyCreate(
-                        name=currency.get('name'),
-                        code=currency_code,
-                        symbol=currency.get('symbol')
-                    )
-                    crud.currency.create(db, obj_in=currency_in)
+                    seed_currency(db, currency, currency_code)
+
+        for currency in country.get('currencies'):
+            code = currency.get('code')
+            country_code = get_country_code(country)
+            country_exists = get_existed_country(db, country_code)
+
+            if country_exists:
+                if code:
+                    currency_to_attach = crud.currency.get_by_code(db, code=code).id
+                    country_currency_exists = crud.country_currency.get_one(db, country_id=country_exists.id,
+                                                                            currency_id=currency_to_attach)
+                    if not country_currency_exists:
+                        country_currency_in = schemas.CountryCurrencyCreate(
+                            country_id=country_exists.id,
+                            currency_id=currency_to_attach
+                        )
+                        crud.country_currency.create(db, obj_in=country_currency_in)
+
+
+
 
 
 def get_existed_country(db: Session, code: int):
@@ -95,3 +111,11 @@ def country_language_seed(db: Session, code: str, country_exists: Country):
             language_id=language_to_attach
         )
         crud.country_language.create(db, obj_in=country_language_in)
+
+def seed_currency(db: Session, currency: dict, code: str):
+    currency_in = schemas.CurrencyCreate(
+        name=currency.get('name'),
+        code=code,
+        symbol=currency.get('symbol')
+    )
+    crud.currency.create(db, obj_in=currency_in)
